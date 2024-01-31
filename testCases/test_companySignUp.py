@@ -30,7 +30,7 @@ class TestSignUp(unittest.TestCase):
         self.logger = LogGen.loggen()
         self.driver = webdriver.Chrome()  # Change to the appropriate driver
         self.driver.maximize_window()
-
+        self.driver.implicitly_wait(20)
     def tearDown(self):
         self.driver.quit()
 

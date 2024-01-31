@@ -14,7 +14,7 @@ class ConfigurationPage:
     tab_Relations_xpath = "//button[normalize-space()='Relations']"
     NewBtn_xpath = "//button[normalize-space()='New']"
     text_Department_name_xpath = "//input[@id='outlined-basic']"
-    text_EnterDescription_xpath = "//textarea[@placeholder='Write summary about (120 characters)']"
+    text_EnterDescription_xpath = "//textarea[@placeholder='Write a summary about (120 characters)']"
     button_Create_xpath = "//button[normalize-space()='Create']"
     button_Cancel_xpath = "//button[normalize-space()='Cancel']"
     button_Update_xpath = "//button[normalize-space()='Update']"

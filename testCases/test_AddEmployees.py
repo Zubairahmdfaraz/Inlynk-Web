@@ -1,7 +1,10 @@
 import time
+import unittest
 
 import pytest
 from openpyxl.reader.excel import load_workbook
+from selenium import webdriver
+
 from pageObjects.ConfigurationPage import ConfigurationPage
 from pageObjects.LoginPage import LoginPage
 from pageObjects.AddEmployeesPage import AddEmployeesPage
@@ -12,7 +15,7 @@ from pageObjects.companySignUpPage import companySignUpPage
 
 
 
-class Test_001_CreateNewEmployee:
+class addEmployees(unittest.TestCase):
     baseURL = ReadConfig.getApplicationURL()
     DeptName = "Emp creation QA"
     DeptDescription = "Emp creation Software Testing"
@@ -22,6 +25,7 @@ class Test_001_CreateNewEmployee:
     # Access the active worksheet
     worksheet = workbook.active
 
+    # username = worksheet["I2"].value
     username = worksheet["A2"].value
     password = ReadConfig.getPassword()
 
@@ -29,12 +33,44 @@ class Test_001_CreateNewEmployee:
 
     logger = LogGen.loggen()
 
-    @pytest.mark.regression
-    def test_createEmployee_superAdmin(self, setup):
-        self.logger.info("****Started Create New Employee in Super Admin and Admin Account ****")
-        self.driver = setup
-        self.driver.get(self.baseURL)
+    def setUp(self):
+        self.logger = LogGen.loggen()
+        self.driver = webdriver.Chrome()  # Change to the appropriate driver
         self.driver.maximize_window()
+        self.driver.implicitly_wait(10)
+        self.logger.info("****Opening URL****")
+        self.driver.get(self.baseURL)
+
+    def tearDown(self):
+        self.driver.quit()
+
+
+    @pytest.mark.smoke
+    @pytest.mark.flaky(reruns=3, reruns_delay=2)
+    def test_createEmployee_superAdmin(self):
+        self.logger.info("****Started Create New Employee in Super Admin and Admin Account ****")
+        first_name = randomGen.random_first_name()
+        email = randomGen.random_email()
+        phone_number = randomGen.random_phone_number()
+        Emp_Id = randomGen.random_Emp_Id()
+
+        self.logger.info("******** Generating and storing data into excel sheet ***********")
+        # Load the existing workbook
+        wb = load_workbook("TestData/LoginData.xlsx")
+
+        # Select the active worksheet
+        ws = wb.active
+
+        # Update the existing cells with new data
+        ws['A8'] = first_name
+        ws['B8'] = "personal" + email
+        ws['D8'] = phone_number
+        ws['C8'] = Emp_Id
+        ws['E8'] = "emp" + email
+
+        # Save the workbook
+        wb.save("TestData/LoginData.xlsx")
+
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
@@ -43,15 +79,15 @@ class Test_001_CreateNewEmployee:
         self.aep = AddEmployeesPage(self.driver)
         self.aep.clickEmployeesModule()
         self.aep.clickActive()
-        first_name = randomGen.random_first_name()
+        time.sleep(1)
         self.aep.clickNewButton()
         self.aep.setFullname(first_name)
-        email = randomGen.random_email()
+
         self.aep.setEmail("emp" + email)
         self.aep.setPersonalEmail("personal" + email)
-        phone_number = randomGen.random_phone_number()
+
         self.aep.setPhoneNumber(phone_number)
-        Emp_Id = randomGen.random_Emp_Id()
+
         self.aep.setEmpId(Emp_Id)
         self.logger.info("**** Started Create  New Department in Super Admin Account****")
         self.aep.clickAddDeptButton()
@@ -126,3 +162,6 @@ class Test_001_CreateNewEmployee:
             self.logger.error("********* Employee creation Test is Failed ***********")
             self.driver.close()
             assert False
+
+    if __name__ == '__main__':
+        unittest.main(verbosity=2)

@@ -1,64 +1,42 @@
-
-
-
-
 import time
 import unittest
 
-# from telnetlib import EC
-
+from pageObjects.ConfigurationPage import ConfigurationPage
+from pageObjects.AddEmployeesPage import AddEmployeesPage
 import pytest
 from openpyxl.reader.excel import load_workbook
-
 from selenium.common import NoSuchElementException
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
-from testCases.conftest import setup
-from selenium import webdriver
-from pageObjects.ConfigurationPage import ConfigurationPage
 from pageObjects.LoginPage import LoginPage
-from pageObjects.AddEmployeesPage import AddEmployeesPage
-from utilities.readProperties import ReadConfig
+from testCases.conftest import setup
 from utilities.customLogger import LogGen
-from pageObjects.randomGen import randomGen
+from utilities.readProperties import ReadConfig
 from pageObjects.companySignUpPage import companySignUpPage
+from pageObjects.randomGen import randomGen
+from selenium import webdriver
 
 
-
-class addEmployees(unittest.TestCase):
+class TestSignUp(unittest.TestCase):
     baseURL = ReadConfig.getApplicationURL()
     setSearchIndustryType = "Information Technology"
-    DeptName = "Emp creation QA"
-    DeptDescription = "Emp creation Software Testing"
-
-    workbook = load_workbook("TestData/LoginData.xlsx")
-
-    # Access the active worksheet
-    worksheet = workbook.active
-
-    # username = worksheet["I2"].value
-    username = worksheet["A2"].value
     password = ReadConfig.getPassword()
 
-    workbook.close()
-
-    logger = LogGen.loggen()
+    DeptName = "Emp creation QA"
+    DeptDescription = "Emp creation Software Testing"
 
     def setUp(self):
         self.logger = LogGen.loggen()
         self.driver = webdriver.Chrome()  # Change to the appropriate driver
         self.driver.maximize_window()
         self.driver.implicitly_wait(10)
-        self.logger.info("****Opening URL****")
-        self.driver.get(self.baseURL)
 
     def tearDown(self):
         self.driver.quit()
 
-
+    @pytest.mark.run(order=1)
     @pytest.mark.smoke
-    @pytest.mark.flaky(reruns=3, reruns_delay=2)
-    def test_createEmployee_superAdmin(self):
+    def test_SignUpwithValid(self):
         self.driver.get(self.baseURL)
         self.logger.info("******** Starting test_Sign Up with Valid ***********")
         self.logger.info("******** User is on Login page ***********")
@@ -76,10 +54,8 @@ class addEmployees(unittest.TestCase):
         ws = wb.active
 
         # Update the existing cells with new data
-        ws['A2'] = email
-        ws['B2'] = first_name
-        ws['C2'] = company_name
-        ws['D2'] = phone_number
+        ws['I2'] = email
+        ws['H2'] = company_name
 
         # Save the workbook
         wb.save("TestData/LoginData.xlsx")
@@ -186,7 +162,12 @@ class addEmployees(unittest.TestCase):
         self.logger.info("******** Company Sign Up successful ***********")
         self.logger.info("******** Entering the sig up credentials for Login ***********")
         # Read data from specific cells
-        email = ws['A2'].value
+        email = ws['I2'].value
+
+        self.lp = LoginPage(self.driver)
+        self.lp.setUserName(email)
+        self.lp.setPassword(self.password)
+        self.lp.clickLogin()
 
         self.logger.info("****Started Create New Employee in Super Admin and Admin Account ****")
         first_name = randomGen.random_first_name()
@@ -202,17 +183,15 @@ class addEmployees(unittest.TestCase):
         ws = wb.active
 
         # Update the existing cells with new data
-        ws['A8'] = first_name
-        ws['B8'] = "personal" + email
-        ws['D8'] = phone_number
-        ws['C8'] = Emp_Id
-        ws['E8'] = "emp" + email
+        ws['J2'] = first_name
+        ws['K2'] = "personal" + email
+
 
         # Save the workbook
         wb.save("TestData/LoginData.xlsx")
 
         self.lp = LoginPage(self.driver)
-        self.lp.setUserName(self.username)
+        self.lp.setUserName(email)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
         self.lp.clickNewsFeed()
@@ -305,3 +284,7 @@ class addEmployees(unittest.TestCase):
 
     if __name__ == '__main__':
         unittest.main(verbosity=2)
+
+
+if __name__ == '__main__':
+    unittest.main(verbosity=2)

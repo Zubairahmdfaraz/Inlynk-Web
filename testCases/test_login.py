@@ -96,10 +96,13 @@ class TestLogin(unittest.TestCase):
 
     @pytest.mark.sanity
     @pytest.mark.smoke
+    @pytest.mark.flaky(reruns=3, reruns_delay=2)
     def test_login_Valid_UsernamePassword(self):
 
         self.logger.info("****Started Login Test****")
         self.lp = LoginPage(self.driver)
+        self.logger.info(
+            "Entering SuperAdmin Credentials for login Username:" + self.username + " and Password:" + self.password)
         self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
