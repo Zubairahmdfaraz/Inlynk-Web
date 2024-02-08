@@ -46,7 +46,7 @@ class addEmployees(unittest.TestCase):
 
 
     @pytest.mark.smoke
-    @pytest.mark.flaky(reruns=3, reruns_delay=2)
+    # @pytest.mark.flaky(reruns=3, reruns_delay=2)
     def test_createEmployee_superAdmin(self):
         self.logger.info("****Started Create New Employee in Super Admin and Admin Account ****")
         first_name = randomGen.random_first_name()
@@ -79,7 +79,7 @@ class addEmployees(unittest.TestCase):
         self.aep = AddEmployeesPage(self.driver)
         self.aep.clickEmployeesModule()
         self.aep.clickActive()
-        time.sleep(1)
+        time.sleep(2)
         self.aep.clickNewButton()
         self.aep.setFullname(first_name)
 
@@ -151,7 +151,7 @@ class addEmployees(unittest.TestCase):
         self.sp.clickHyderabad()
         time.sleep(2)
         self.aep.clickAddButton()
-        time.sleep(3)
+        time.sleep(4)
         act_Text = self.aep.Text_EmployeeCreatedSuccessful()
         if act_Text == "Employee created successfully":
             assert True

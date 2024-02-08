@@ -35,6 +35,7 @@ class TestSignUp(unittest.TestCase):
         self.driver.quit()
 
     @pytest.mark.run(order=1)
+    # @pytest.mark.flaky(reruns=3, reruns_delay=2)
     @pytest.mark.smoke
     def test_SignUpwithValid(self):
         self.driver.get(self.baseURL)
@@ -54,8 +55,8 @@ class TestSignUp(unittest.TestCase):
         ws = wb.active
 
         # Update the existing cells with new data
-        ws['I2'] = email
-        ws['H2'] = company_name
+        ws['I10'] = email
+        ws['H10'] = company_name
 
         # Save the workbook
         wb.save("TestData/LoginData.xlsx")
@@ -162,7 +163,7 @@ class TestSignUp(unittest.TestCase):
         self.logger.info("******** Company Sign Up successful ***********")
         self.logger.info("******** Entering the sig up credentials for Login ***********")
         # Read data from specific cells
-        email = ws['I2'].value
+        email = ws['I10'].value
 
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(email)
@@ -183,22 +184,18 @@ class TestSignUp(unittest.TestCase):
         ws = wb.active
 
         # Update the existing cells with new data
-        ws['J2'] = first_name
-        ws['K2'] = "personal" + email
+        ws['J10'] = first_name
+        ws['K10'] = "personal" + email
 
 
         # Save the workbook
         wb.save("TestData/LoginData.xlsx")
 
-        self.lp = LoginPage(self.driver)
-        self.lp.setUserName(email)
-        self.lp.setPassword(self.password)
-        self.lp.clickLogin()
         self.lp.clickNewsFeed()
         self.aep = AddEmployeesPage(self.driver)
         self.aep.clickEmployeesModule()
         self.aep.clickActive()
-        time.sleep(1)
+        time.sleep(2)
         self.aep.clickNewButton()
         self.aep.setFullname(first_name)
 
@@ -270,12 +267,12 @@ class TestSignUp(unittest.TestCase):
         self.sp.clickHyderabad()
         time.sleep(2)
         self.aep.clickAddButton()
-        time.sleep(3)
+        time.sleep(6)
         act_Text = self.aep.Text_EmployeeCreatedSuccessful()
         if act_Text == "Employee created successfully":
             assert True
             self.logger.info("********* Employee creation Test is Passed ***********")
-            self.driver.close()
+
         else:
             self.driver.save_screenshot(".\\ScreenShots\\" + "test_createDept.png")
             self.logger.error("********* Employee creation Test is Failed ***********")

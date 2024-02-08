@@ -38,7 +38,6 @@ class AddEmployeesPage:
         element.click()
 
     def Text_EmployeeCreatedSuccessful(self):
-        time.sleep(2)
         DeptUpdatedSuccessful = self.driver.find_element(By.XPATH, self.Verify_EmployeeCreatedText_xpath)
         text = DeptUpdatedSuccessful.text  # Access 'text' as an attribute, not as a function
         return text

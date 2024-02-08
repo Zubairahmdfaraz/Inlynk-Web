@@ -30,8 +30,10 @@ class networksPage:
     Button_Approve_xpath = "//button[text()='Approve']"
     Button_Accept_xpath = "//button[text()='Accept']"
     Button_Cancel_xpath = "//button[text()='Cancel']"
-
-
+    Button_Reject_xpath = "//button[text()='Reject']"
+    textarea_xpath = "//textarea[@placeholder='Please write a short note, why you want to reject this connection.']"
+    Button_Reject2_xpath = "//button[normalize-space()='Reject']"
+    RejectEmployeeText_xpath = "//div[contains(text(),'Connection rejected successfully')]"
 
     def __init__(self, driver):
         self.driver = driver
@@ -74,6 +76,7 @@ class networksPage:
         )
         element.click()
     def clickManufacturer(self):
+        time.sleep(0.5)
         self.driver.find_element(By.XPATH, self.DD_Manufacturer_xpath).click()
     def clickshareHolder(self):
         self.driver.find_element(By.XPATH, self.DD_share_holder_xpath).click()
@@ -94,10 +97,24 @@ class networksPage:
 
     def clickCancelButton(self):
         self.driver.find_element(By.XPATH, self.ButtonCancel_xpath).click()
+
     def clickApproveButton(self):
         self.driver.find_element(By.XPATH, self.Button_Approve_xpath).click()
+    def clickRejectButton(self):
+        self.driver.find_element(By.XPATH, self.Button_Reject_xpath).click()
+        time.sleep(2)
 
     def clickAcceptButton(self):
         self.driver.find_element(By.XPATH, self.Button_Accept_xpath).click()
     def clickOKButton(self):
         self.driver.find_element(By.XPATH, self.Button_OK_xpath).click()
+
+    def setTextarea (self, text):
+        self.driver.find_element(By.XPATH, self.textarea_xpath).send_keys(text)
+    def clickReject2Button (self):
+        self.driver.find_element(By.XPATH, self.Button_Reject2_xpath).click()
+
+    def Text_Connection_rejected_successfully(self):
+        DeptUpdatedSuccessful = self.driver.find_element(By.XPATH, self.RejectEmployeeText_xpath)
+        text = DeptUpdatedSuccessful.text  # Access 'text' as an attribute, not as a function
+        return text
