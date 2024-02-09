@@ -90,3 +90,72 @@ class randomGen:
 
         return f'{prefix}{remaining_digits}'
 
+    # ===================krishna==========================
+    @staticmethod
+    def random_categorytitle():
+        prefix = 'Test Title '  # Assuming '9' as the fixed prefix
+        random_part = ''.join(random.choice(string.ascii_letters) for _ in range(7))
+
+        return f'{prefix}{random_part}'
+
+    @staticmethod
+    def random_subcategorytitle():
+        prefix = 'Test Title '  # Assuming '9' as the fixed prefix
+        random_part = ''.join(random.choice(string.ascii_letters) for _ in range(7))
+
+        return f'{prefix}{random_part}'
+
+    @staticmethod
+    def random_subcategorytitle1():
+        prefix = 'Test Title '  # Assuming '9' as the fixed prefix
+        random_part = ''.join(random.choice(string.ascii_letters) for _ in range(7))
+
+        return f'{prefix}{random_part}'
+
+    @staticmethod
+    def random_subcategorytitle2():
+        prefix = 'Test Title '  # Assuming '9' as the fixed prefix
+        random_part = ''.join(random.choice(string.ascii_letters) for _ in range(7))
+
+        return f'{prefix}{random_part}'
+
+    @staticmethod
+    def random_subcategorytitle3():
+        prefix = 'Test Title '  # Assuming '9' as the fixed prefix
+        random_part = ''.join(random.choice(string.ascii_letters) for _ in range(7))
+
+        return f'{prefix}{random_part}'
+
+    @staticmethod
+    def random_subcategorytitle4():
+        prefix = 'Test Title '  # Assuming '9' as the fixed prefix
+        random_part = ''.join(random.choice(string.ascii_letters) for _ in range(7))
+
+        return f'{prefix}{random_part}'
+
+    @staticmethod
+    def random_contenttitle():
+        prefix = 'Test Content Title '  # Assuming '9' as the fixed prefix
+        random_part = ''.join(random.choice(string.ascii_letters) for _ in range(7))
+
+        return f'{prefix}{random_part}'
+
+    @staticmethod
+    def random_contentsectionname():
+        prefix = 'Test section name '  # Assuming '9' as the fixed prefix
+        random_part = ''.join(random.choice(string.ascii_letters) for _ in range(7))
+
+        return f'{prefix}{random_part}'
+
+    @staticmethod
+    def random_acronym1():
+        prefix = 'T'  # Assuming '9' as the fixed prefix
+        random_part = ''.join(random.choice(string.ascii_letters) for _ in range(5))  # Random part after "test"
+
+        return f'{prefix}{random_part}'
+
+    @staticmethod
+    def random_acronym2():
+        prefix = 'e'  # Assuming '9' as the fixed prefix
+        random_part = ''.join(random.choice(string.ascii_letters) for _ in range(5))  # Random part after "test"
+        return f'{prefix}{random_part}'

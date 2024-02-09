@@ -2,16 +2,13 @@ import os
 
 import pytest
 import time
-
-from selenium.webdriver import ActionChains, Keys
-from selenium.webdriver.common.by import By
-
 from pageObjects.LoginPage import LoginPage
 from krishnapageObjects.NewsfeedPage import NewsFeed
 from utilities.readProperties import ReadConfig
 from utilities.customLogger import LogGen
 
-class Test_001_NewsFeed:
+
+class TestNewsFeed:
     baseURL = ReadConfig.getApplicationURL()
     username = ReadConfig.getUseremail()
     password = ReadConfig.getPassword()
@@ -49,260 +46,259 @@ class Test_001_NewsFeed:
     replytext = "gudmorning all"
     commentedittext = "all "
 
-
     logger = LogGen.loggen()  # Logger
 
     @pytest.mark.sanity
     @pytest.mark.regression
     # @pytest.mark.skip(reason="Skipping this test")
     def test_newsfeedforemployees(self, setup):
-         self.logger.info("************* Test_003_NewsFeed **********")
-         self.driver = setup
-         self.driver.get(self.baseURL)
-         self.driver.maximize_window()
+        self.logger.info("************* Test_003_NewsFeed **********")
+        self.driver = setup
+        self.driver.get(self.baseURL)
+        self.driver.maximize_window()
 
-         self.lp = LoginPage(self.driver)
-         self.lp.setUserName(self.username)
-         self.lp.setPassword(self.password)
-         self.lp.clickLogin()
-         self.logger.info("************* Login succesful **********")
+        self.lp = LoginPage(self.driver)
+        self.lp.setUserName(self.username)
+        self.lp.setPassword(self.password)
+        self.lp.clickLogin()
+        self.logger.info("************* Login succesful **********")
 
-         self.logger.info("******* Starting NewsFeed Test **********")
-         self.nf = NewsFeed(self.driver)
-         time.sleep(3)
-         self.nf.clickOnwhat()
-         time.sleep(3)
-         self.nf.setwhats(self.whats)
-         time.sleep(3)
-         self.nf.clickonpost()
-         time.sleep(3)
-         if "News feed created successfully" in self.driver.page_source:
-             self.logger.info("********** NewsFeed test is passed *********")
+        self.logger.info("******* Starting NewsFeed Test **********")
+        self.nf = NewsFeed(self.driver)
+        time.sleep(3)
+        self.nf.clickOnwhat()
+        time.sleep(3)
+        self.nf.setwhats(self.whats)
+        time.sleep(3)
+        self.nf.clickonpost()
+        time.sleep(3)
+        if "News feed created successfully" in self.driver.page_source:
+            self.logger.info("********** NewsFeed test is passed *********")
 
-         else:
-             # Log and take a screenshot
-             self.logger.error("************** NewsFeed test is failed **********")
-             self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed1.png")
-             assert False
-         time.sleep(3)
-         self.nf.clickonlogout()
-         self.logger.info("************* Logout succesful **********")
-         time.sleep(3)
-         self.lp.setUserNames(self.usernames)
-         self.lp.setPassword(self.password)
-         self.lp.clickLogin()
-         time.sleep(3)
-         self.logger.info("************* EmpLogin succesful **********")
-         if "Hi,gud mrng employees" in self.driver.page_source:
-             self.logger.info("********** NewsFeed display is passed *********")
-             self.driver.close()
-         else:
-             # Log and take a screenshot
-             self.logger.error("************** NewsFeed display is failed **********")
-             self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed1.png")
-             assert False
+        else:
+            # Log and take a screenshot
+            self.logger.error("************** NewsFeed test is failed **********")
+            self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed1.png")
+            assert False
+        time.sleep(3)
+        self.nf.clickonlogout()
+        self.logger.info("************* Logout succesful **********")
+        time.sleep(3)
+        self.lp.setUserName(self.usernames)
+        self.lp.setPassword(self.password)
+        self.lp.clickLogin()
+        time.sleep(3)
+        self.logger.info("************* EmpLogin succesful **********")
+        if "Hi,gud mrng employees" in self.driver.page_source:
+            self.logger.info("********** NewsFeed display is passed *********")
+            self.driver.close()
+        else:
+            # Log and take a screenshot
+            self.logger.error("************** NewsFeed display is failed **********")
+            self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed1.png")
+            assert False
 
     @pytest.mark.sanity
     @pytest.mark.regression
     # @pytest.mark.skip(reason="Skipping this test")
     def test_newsfeedforempndrel(self, setup):
-         self.logger.info("************* Test_003_NewsFeed **********")
-         self.driver = setup
-         self.driver.get(self.baseURL)
-         self.driver.maximize_window()
+        self.logger.info("************* Test_003_NewsFeed **********")
+        self.driver = setup
+        self.driver.get(self.baseURL)
+        self.driver.maximize_window()
 
-         self.lp = LoginPage(self.driver)
-         self.lp.setUserName(self.username)
-         self.lp.setPassword(self.password)
-         self.lp.clickLogin()
-         self.logger.info("************* Login succesful **********")
+        self.lp = LoginPage(self.driver)
+        self.lp.setUserName(self.username)
+        self.lp.setPassword(self.password)
+        self.lp.clickLogin()
+        self.logger.info("************* Login succesful **********")
 
-         self.logger.info("******* Starting NewsFeed Test **********")
-         self.nf = NewsFeed(self.driver)
-         time.sleep(3)
-         self.nf.clickOnwhat()
-         time.sleep(3)
-         self.nf.setwhatso(self.whatso)
-         time.sleep(3)
-         self.nf.clickonpublic()
-         time.sleep(3)
-         self.nf.clickonpost()
-         time.sleep(3)
-         if "News feed created successfully" in self.driver.page_source:
-             self.logger.info("********** NewsFeed test is passed *********")
+        self.logger.info("******* Starting NewsFeed Test **********")
+        self.nf = NewsFeed(self.driver)
+        time.sleep(3)
+        self.nf.clickOnwhat()
+        time.sleep(3)
+        self.nf.setwhatso(self.whatso)
+        time.sleep(3)
+        self.nf.clickonpublic()
+        time.sleep(3)
+        self.nf.clickonpost()
+        time.sleep(3)
+        if "News feed created successfully" in self.driver.page_source:
+            self.logger.info("********** NewsFeed test is passed *********")
 
-         else:
-             # Log and take a screenshot
-             self.logger.error("************** NewsFeed test is failed **********")
-             self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed2.png")
-             assert False
-         time.sleep(3)
-         self.nf.clickonlogout()
-         self.logger.info("************* Logout succesful **********")
-         time.sleep(3)
-         self.lp.setUserNames1(self.usernames1)
-         self.lp.setPassword(self.password)
-         self.lp.clickLogin()
-         time.sleep(3)
-         self.logger.info("************* relationcompanyLogin succesful **********")
-         if "hii,all employees and relation companies" in self.driver.page_source:
-             self.logger.info("********** NewsFeed display is passed *********")
-             self.driver.close()
-         else:
-             # Log and take a screenshot
-             self.logger.error("************** NewsFeed display is failed **********")
-             self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed2.png")
-             assert False
+        else:
+            # Log and take a screenshot
+            self.logger.error("************** NewsFeed test is failed **********")
+            self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed2.png")
+            assert False
+        time.sleep(3)
+        self.nf.clickonlogout()
+        self.logger.info("************* Logout succesful **********")
+        time.sleep(3)
+        self.lp.setUserName(self.usernames1)
+        self.lp.setPassword(self.password)
+        self.lp.clickLogin()
+        time.sleep(3)
+        self.logger.info("************* relationcompanyLogin succesful **********")
+        if "hii,all employees and relation companies" in self.driver.page_source:
+            self.logger.info("********** NewsFeed display is passed *********")
+            self.driver.close()
+        else:
+            # Log and take a screenshot
+            self.logger.error("************** NewsFeed display is failed **********")
+            self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed2.png")
+            assert False
 
     @pytest.mark.sanity
     @pytest.mark.regression
     # @pytest.mark.skip(reason="Skipping this test")
     def test_newsfeedforpartners(self, setup):
-         self.logger.info("************* Test_003_NewsFeed **********")
-         self.driver = setup
-         self.driver.get(self.baseURL)
-         self.driver.maximize_window()
+        self.logger.info("************* Test_003_NewsFeed **********")
+        self.driver = setup
+        self.driver.get(self.baseURL)
+        self.driver.maximize_window()
 
-         self.lp = LoginPage(self.driver)
-         self.lp.setUserName(self.username)
-         self.lp.setPassword(self.password)
-         self.lp.clickLogin()
-         self.logger.info("************* Login succesful **********")
+        self.lp = LoginPage(self.driver)
+        self.lp.setUserName(self.username)
+        self.lp.setPassword(self.password)
+        self.lp.clickLogin()
+        self.logger.info("************* Login succesful **********")
 
-         self.logger.info("******* Starting NewsFeed Test **********")
-         self.nf = NewsFeed(self.driver)
-         time.sleep(3)
-         self.nf.clickOnwhat()
-         time.sleep(3)
-         self.nf.setwhatson(self.whatson)
-         time.sleep(3)
-         self.nf.clickonemp()
-         time.sleep(3)
-         self.nf.clickonpartner()
-         time.sleep(3)
-         self.nf.clickonpost()
-         time.sleep(3)
-         if "News feed created successfully" in self.driver.page_source:
-             self.logger.info("********** NewsFeed test is passed *********")
+        self.logger.info("******* Starting NewsFeed Test **********")
+        self.nf = NewsFeed(self.driver)
+        time.sleep(3)
+        self.nf.clickOnwhat()
+        time.sleep(3)
+        self.nf.setwhatson(self.whatson)
+        time.sleep(3)
+        self.nf.clickonemp()
+        time.sleep(3)
+        self.nf.clickonpartner()
+        time.sleep(3)
+        self.nf.clickonpost()
+        time.sleep(3)
+        if "News feed created successfully" in self.driver.page_source:
+            self.logger.info("********** NewsFeed test is passed *********")
 
-         else:
-             # Log and take a screenshot
-             self.logger.error("************** NewsFeed test is failed **********")
-             self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed3.png")
-             assert False
-         time.sleep(3)
-         self.nf.clickonlogout()
-         self.logger.info("************* Logout succesful **********")
-         time.sleep(3)
-         self.lp.setUserNames2(self.usernames2)
-         self.lp.setPassword(self.password)
-         self.lp.clickLogin()
-         time.sleep(3)
-         self.logger.info("************* partnerLogin succesful **********")
-         if "hii,all partners schedule the meeting" in self.driver.page_source:
-             self.logger.info("********** NewsFeed display is passed *********")
-             self.driver.close()
-         else:
-             # Log and take a screenshot
-             self.logger.error("************** NewsFeed display is failed **********")
-             self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed3.png")
-             assert False
+        else:
+            # Log and take a screenshot
+            self.logger.error("************** NewsFeed test is failed **********")
+            self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed3.png")
+            assert False
+        time.sleep(3)
+        self.nf.clickonlogout()
+        self.logger.info("************* Logout succesful **********")
+        time.sleep(3)
+        self.lp.setUserName(self.usernames2)
+        self.lp.setPassword(self.password)
+        self.lp.clickLogin()
+        time.sleep(3)
+        self.logger.info("************* partnerLogin succesful **********")
+        if "hii,all partners schedule the meeting" in self.driver.page_source:
+            self.logger.info("********** NewsFeed display is passed *********")
+            self.driver.close()
+        else:
+            # Log and take a screenshot
+            self.logger.error("************** NewsFeed display is failed **********")
+            self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed3.png")
+            assert False
 
     @pytest.mark.sanity
     @pytest.mark.regression
     # @pytest.mark.skip(reason="Skipping this test")
     def test_newsfeedforarchived(self, setup):
-         self.logger.info("************* Test_003_NewsFeed **********")
-         self.driver = setup
-         self.driver.get(self.baseURL)
-         self.driver.maximize_window()
+        self.logger.info("************* Test_003_NewsFeed **********")
+        self.driver = setup
+        self.driver.get(self.baseURL)
+        self.driver.maximize_window()
 
-         self.lp = LoginPage(self.driver)
-         self.lp.setUserName(self.username)
-         self.lp.setPassword(self.password)
-         self.lp.clickLogin()
-         self.logger.info("************* Login succesful **********")
+        self.lp = LoginPage(self.driver)
+        self.lp.setUserName(self.username)
+        self.lp.setPassword(self.password)
+        self.lp.clickLogin()
+        self.logger.info("************* Login succesful **********")
 
-         self.logger.info("******* Starting NewsFeed Test **********")
-         self.nf = NewsFeed(self.driver)
-         time.sleep(3)
-         self.nf.clickOnwhat()
-         time.sleep(3)
-         self.nf.setwhats(self.whats)
-         time.sleep(3)
-         self.nf.clickonstatus()
-         time.sleep(3)
-         self.nf.clickonpost()
-         time.sleep(3)
-         if "Post created and saved in archived list" in self.driver.page_source:
-             self.logger.info("********** NewsFeed test is passed *********")
+        self.logger.info("******* Starting NewsFeed Test **********")
+        self.nf = NewsFeed(self.driver)
+        time.sleep(3)
+        self.nf.clickOnwhat()
+        time.sleep(3)
+        self.nf.setwhats(self.whats)
+        time.sleep(3)
+        self.nf.clickonstatus()
+        time.sleep(3)
+        self.nf.clickonpost()
+        time.sleep(3)
+        if "Post created and saved in archived list" in self.driver.page_source:
+            self.logger.info("********** NewsFeed test is passed *********")
 
-         else:
-             # Log and take a screenshot
-             self.logger.error("************** NewsFeed test is failed **********")
-             self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed4.png")
-             assert False
-         time.sleep(3)
-         self.nf.clickonthreedots()
-         time.sleep(3)
-         self.nf.clickonarchive()
-         time.sleep(3)
-         if "Hi,gud mrng employees" in self.driver.page_source:
-             self.logger.info("********** NewsFeed test is passed *********")
+        else:
+            # Log and take a screenshot
+            self.logger.error("************** NewsFeed test is failed **********")
+            self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed4.png")
+            assert False
+        time.sleep(3)
+        self.nf.clickonthreedots()
+        time.sleep(3)
+        self.nf.clickonarchive()
+        time.sleep(3)
+        if "Hi,gud mrng employees" in self.driver.page_source:
+            self.logger.info("********** NewsFeed test is passed *********")
 
-         else:
-             # Log and take a screenshot
-             self.logger.error("************** NewsFeed test is failed **********")
-             self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed4.png")
-             assert False
+        else:
+            # Log and take a screenshot
+            self.logger.error("************** NewsFeed test is failed **********")
+            self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed4.png")
+            assert False
 
     @pytest.mark.sanity
     @pytest.mark.regression
     # @pytest.mark.skip(reason="Skipping this test")
     def test_newsfeedwithimage(self, setup):
-         self.logger.info("************* Test_003_NewsFeed **********")
-         self.driver = setup
-         self.driver.get(self.baseURL)
-         self.driver.maximize_window()
+        self.logger.info("************* Test_003_NewsFeed **********")
+        self.driver = setup
+        self.driver.get(self.baseURL)
+        self.driver.maximize_window()
 
-         self.lp = LoginPage(self.driver)
-         self.lp.setUserName(self.username)
-         self.lp.setPassword(self.password)
-         self.lp.clickLogin()
-         self.logger.info("************* Login succesful **********")
+        self.lp = LoginPage(self.driver)
+        self.lp.setUserName(self.username)
+        self.lp.setPassword(self.password)
+        self.lp.clickLogin()
+        self.logger.info("************* Login succesful **********")
 
-         self.logger.info("******* Starting NewsFeed Test **********")
-         self.nf = NewsFeed(self.driver)
-         time.sleep(3)
-         self.nf.clickOnwhat()
-         time.sleep(3)
-         self.nf.setoneimage(self.oneimage)
-         time.sleep(3)
-         self.nf.setgallery(self.absolute_path1)
-         time.sleep(3)
-         self.nf.clickonpost()
-         time.sleep(3)
-         if "News feed created successfully" in self.driver.page_source:
+        self.logger.info("******* Starting NewsFeed Test **********")
+        self.nf = NewsFeed(self.driver)
+        time.sleep(3)
+        self.nf.clickOnwhat()
+        time.sleep(3)
+        self.nf.setoneimage(self.oneimage)
+        time.sleep(3)
+        self.nf.setgallery(self.absolute_path1)
+        time.sleep(3)
+        self.nf.clickonpost()
+        time.sleep(3)
+        if "News feed created successfully" in self.driver.page_source:
             self.logger.info("********** NewsFeed test is passed *********")
 
-         else:
+        else:
             # Log and take a screenshot
             self.logger.error("************** NewsFeed test is failed **********")
             self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed5.png")
             assert False
-         self.nf.clickonlogout()
-         self.logger.info("************* Logout succesful **********")
-         time.sleep(3)
-         self.lp.setUserNames(self.usernames)
-         self.lp.setPassword(self.password)
-         self.lp.clickLogin()
-         time.sleep(3)
-         self.logger.info("************* EmpLogin succesful **********")
-         time.sleep(3)
-         if "one image upload" in self.driver.page_source:
+        self.nf.clickonlogout()
+        self.logger.info("************* Logout succesful **********")
+        time.sleep(3)
+        self.lp.setUserName(self.usernames)
+        self.lp.setPassword(self.password)
+        self.lp.clickLogin()
+        time.sleep(3)
+        self.logger.info("************* EmpLogin succesful **********")
+        time.sleep(3)
+        if "one image upload" in self.driver.page_source:
             self.logger.info("***************Newsfeed test is passed **********")
 
-         else:
+        else:
             self.logger.error("************* NewsFeed test is failed **********")
             self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed5.png")
             assert False
@@ -352,7 +348,7 @@ class Test_001_NewsFeed:
         self.nf.clickonlogout()
         self.logger.info("************* Logout succesful **********")
         time.sleep(3)
-        self.lp.setUserNames(self.usernames)
+        self.lp.setUserName(self.usernames)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
         time.sleep(3)
@@ -366,8 +362,6 @@ class Test_001_NewsFeed:
             self.logger.error("************* NewsFeed test is failed **********")
             self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed6.png")
             assert False
-
-
 
     @pytest.mark.sanity
     @pytest.mark.regression
@@ -458,7 +452,7 @@ class Test_001_NewsFeed:
         self.nf.clickonlogout()
         self.logger.info("************* Logout succesful **********")
         time.sleep(3)
-        self.lp.setUserNames1(self.usernames1)
+        self.lp.setUserName(self.usernames1)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
         time.sleep(3)
@@ -546,7 +540,7 @@ class Test_001_NewsFeed:
         self.nf.clickonlogout()
         self.logger.info("************* Logout succesful **********")
         time.sleep(3)
-        self.lp.setUserNames(self.usernames)
+        self.lp.setUserName(self.usernames)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
         time.sleep(3)
@@ -604,7 +598,7 @@ class Test_001_NewsFeed:
         self.nf.clickonlogout()
         self.logger.info("************* Logout succesful **********")
         time.sleep(3)
-        self.lp.setUserNames1(self.usernames1)
+        self.lp.setUserName(self.usernames1)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
         time.sleep(3)
@@ -673,7 +667,7 @@ class Test_001_NewsFeed:
         self.nf.clickonlogout()
         self.logger.info("************* Logout succesful **********")
         time.sleep(3)
-        self.lp.setUserNames1(self.usernames1)
+        self.lp.setUserName(self.usernames1)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
         time.sleep(3)
@@ -1125,7 +1119,7 @@ class Test_001_NewsFeed:
         self.driver.maximize_window()
 
         self.lp = LoginPage(self.driver)
-        self.lp.setUserNames3(self.usernames3)
+        self.lp.setUserName(self.usernames3)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
         self.logger.info("************* Login succesful **********")
@@ -1153,7 +1147,7 @@ class Test_001_NewsFeed:
         self.nf.clickonlogout()
         self.logger.info("************* Logout succesful **********")
         time.sleep(3)
-        self.lp.setUserNames1(self.usernames1)
+        self.lp.setUserName(self.usernames1)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
         time.sleep(3)
@@ -1218,7 +1212,7 @@ class Test_001_NewsFeed:
         time.sleep(3)
         self.driver.get(self.baseURL)
         time.sleep(3)
-        self.lp.setUserNames(self.usernames)
+        self.lp.setUserName(self.usernames)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
         time.sleep(3)
@@ -1314,43 +1308,3 @@ class Test_001_NewsFeed:
         else:
             self.logger.info("************** NewsFeed test is passed **********")
         time.sleep(3)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
