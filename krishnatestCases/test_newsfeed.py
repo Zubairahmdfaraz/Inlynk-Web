@@ -2,13 +2,17 @@ import os
 
 import pytest
 import time
+
+from selenium.webdriver import ActionChains, Keys
+from selenium.webdriver.common.by import By
+
 from pageObjects.LoginPage import LoginPage
 from krishnapageObjects.NewsfeedPage import NewsFeed
 from utilities.readProperties import ReadConfig
 from utilities.customLogger import LogGen
 
 
-class TestNewsFeed:
+class Test_001_NewsFeed:
     baseURL = ReadConfig.getApplicationURL()
     username = ReadConfig.getUseremail()
     password = ReadConfig.getPassword()
@@ -50,6 +54,7 @@ class TestNewsFeed:
 
     @pytest.mark.sanity
     @pytest.mark.regression
+    @pytest.mark.run(order=1)
     # @pytest.mark.skip(reason="Skipping this test")
     def test_newsfeedforemployees(self, setup):
         self.logger.info("************* Test_003_NewsFeed **********")
@@ -65,11 +70,8 @@ class TestNewsFeed:
 
         self.logger.info("******* Starting NewsFeed Test **********")
         self.nf = NewsFeed(self.driver)
-        time.sleep(3)
         self.nf.clickOnwhat()
-        time.sleep(3)
         self.nf.setwhats(self.whats)
-        time.sleep(3)
         self.nf.clickonpost()
         time.sleep(3)
         if "News feed created successfully" in self.driver.page_source:
@@ -83,7 +85,6 @@ class TestNewsFeed:
         time.sleep(3)
         self.nf.clickonlogout()
         self.logger.info("************* Logout succesful **********")
-        time.sleep(3)
         self.lp.setUserName(self.usernames)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
@@ -100,6 +101,7 @@ class TestNewsFeed:
 
     @pytest.mark.sanity
     @pytest.mark.regression
+    @pytest.mark.run(order=2)
     # @pytest.mark.skip(reason="Skipping this test")
     def test_newsfeedforempndrel(self, setup):
         self.logger.info("************* Test_003_NewsFeed **********")
@@ -115,13 +117,9 @@ class TestNewsFeed:
 
         self.logger.info("******* Starting NewsFeed Test **********")
         self.nf = NewsFeed(self.driver)
-        time.sleep(3)
         self.nf.clickOnwhat()
-        time.sleep(3)
         self.nf.setwhatso(self.whatso)
-        time.sleep(3)
         self.nf.clickonpublic()
-        time.sleep(3)
         self.nf.clickonpost()
         time.sleep(3)
         if "News feed created successfully" in self.driver.page_source:
@@ -135,7 +133,6 @@ class TestNewsFeed:
         time.sleep(3)
         self.nf.clickonlogout()
         self.logger.info("************* Logout succesful **********")
-        time.sleep(3)
         self.lp.setUserName(self.usernames1)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
@@ -152,6 +149,7 @@ class TestNewsFeed:
 
     @pytest.mark.sanity
     @pytest.mark.regression
+    @pytest.mark.run(order=3)
     # @pytest.mark.skip(reason="Skipping this test")
     def test_newsfeedforpartners(self, setup):
         self.logger.info("************* Test_003_NewsFeed **********")
@@ -167,15 +165,10 @@ class TestNewsFeed:
 
         self.logger.info("******* Starting NewsFeed Test **********")
         self.nf = NewsFeed(self.driver)
-        time.sleep(3)
         self.nf.clickOnwhat()
-        time.sleep(3)
         self.nf.setwhatson(self.whatson)
-        time.sleep(3)
         self.nf.clickonemp()
-        time.sleep(3)
         self.nf.clickonpartner()
-        time.sleep(3)
         self.nf.clickonpost()
         time.sleep(3)
         if "News feed created successfully" in self.driver.page_source:
@@ -189,7 +182,6 @@ class TestNewsFeed:
         time.sleep(3)
         self.nf.clickonlogout()
         self.logger.info("************* Logout succesful **********")
-        time.sleep(3)
         self.lp.setUserName(self.usernames2)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
@@ -206,6 +198,7 @@ class TestNewsFeed:
 
     @pytest.mark.sanity
     @pytest.mark.regression
+    @pytest.mark.run(order=4)
     # @pytest.mark.skip(reason="Skipping this test")
     def test_newsfeedforarchived(self, setup):
         self.logger.info("************* Test_003_NewsFeed **********")
@@ -221,13 +214,9 @@ class TestNewsFeed:
 
         self.logger.info("******* Starting NewsFeed Test **********")
         self.nf = NewsFeed(self.driver)
-        time.sleep(3)
         self.nf.clickOnwhat()
-        time.sleep(3)
         self.nf.setwhats(self.whats)
-        time.sleep(3)
         self.nf.clickonstatus()
-        time.sleep(3)
         self.nf.clickonpost()
         time.sleep(3)
         if "Post created and saved in archived list" in self.driver.page_source:
@@ -240,11 +229,11 @@ class TestNewsFeed:
             assert False
         time.sleep(3)
         self.nf.clickonthreedots()
-        time.sleep(3)
         self.nf.clickonarchive()
         time.sleep(3)
         if "Hi,gud mrng employees" in self.driver.page_source:
             self.logger.info("********** NewsFeed test is passed *********")
+            self.driver.close()
 
         else:
             # Log and take a screenshot
@@ -254,6 +243,7 @@ class TestNewsFeed:
 
     @pytest.mark.sanity
     @pytest.mark.regression
+    @pytest.mark.run(order=4)
     # @pytest.mark.skip(reason="Skipping this test")
     def test_newsfeedwithimage(self, setup):
         self.logger.info("************* Test_003_NewsFeed **********")
@@ -269,13 +259,9 @@ class TestNewsFeed:
 
         self.logger.info("******* Starting NewsFeed Test **********")
         self.nf = NewsFeed(self.driver)
-        time.sleep(3)
         self.nf.clickOnwhat()
-        time.sleep(3)
         self.nf.setoneimage(self.oneimage)
-        time.sleep(3)
         self.nf.setgallery(self.absolute_path1)
-        time.sleep(3)
         self.nf.clickonpost()
         time.sleep(3)
         if "News feed created successfully" in self.driver.page_source:
@@ -288,15 +274,14 @@ class TestNewsFeed:
             assert False
         self.nf.clickonlogout()
         self.logger.info("************* Logout succesful **********")
-        time.sleep(3)
         self.lp.setUserName(self.usernames)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
-        time.sleep(3)
         self.logger.info("************* EmpLogin succesful **********")
         time.sleep(3)
         if "one image upload" in self.driver.page_source:
             self.logger.info("***************Newsfeed test is passed **********")
+            self.driver.close()
 
         else:
             self.logger.error("************* NewsFeed test is failed **********")
@@ -305,6 +290,7 @@ class TestNewsFeed:
 
     @pytest.mark.sanity
     @pytest.mark.regression
+    @pytest.mark.run(order=5)
     # @pytest.mark.skip(reason="Skipping this test")
     def test_newsfeedwith5images(self, setup):
         self.logger.info("************* Test_003_NewsFeed **********")
@@ -320,21 +306,13 @@ class TestNewsFeed:
 
         self.logger.info("******* Starting NewsFeed Test **********")
         self.nf = NewsFeed(self.driver)
-        time.sleep(3)
         self.nf.clickOnwhat()
-        time.sleep(3)
         self.nf.setfiveimages(self.fiveimages)
-        time.sleep(3)
         self.nf.setgallery(self.absolute_path1)
-        time.sleep(3)
         self.nf.setgallery(self.absolute_path2)
-        time.sleep(3)
         self.nf.setgallery(self.absolute_path3)
-        time.sleep(3)
         self.nf.setgallery(self.absolute_path4)
-        time.sleep(3)
         self.nf.setgallery(self.absolute_path5)
-        time.sleep(3)
         self.nf.clickonpost()
         time.sleep(3)
         if "News feed created successfully" in self.driver.page_source:
@@ -347,16 +325,15 @@ class TestNewsFeed:
             assert False
         self.nf.clickonlogout()
         self.logger.info("************* Logout succesful **********")
-        time.sleep(3)
         self.lp.setUserName(self.usernames)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
-        time.sleep(3)
         self.logger.info("************* EmpLogin succesful **********")
         self.nf.clickonimage()
         time.sleep(3)
         if "five images upload" in self.driver.page_source:
             self.logger.info("***************Newsfeed test is passed **********")
+            self.driver.close()
 
         else:
             self.logger.error("************* NewsFeed test is failed **********")
@@ -365,6 +342,7 @@ class TestNewsFeed:
 
     @pytest.mark.sanity
     @pytest.mark.regression
+    @pytest.mark.run(order=6)
     # @pytest.mark.skip(reason="Skipping this test")
     def test_newsfeedwith6images(self, setup):
         self.logger.info("************* Test_003_NewsFeed **********")
@@ -380,24 +358,18 @@ class TestNewsFeed:
 
         self.logger.info("******* Starting NewsFeed Test **********")
         self.nf = NewsFeed(self.driver)
-        time.sleep(3)
         self.nf.clickOnwhat()
-        time.sleep(3)
         self.nf.setgallery(self.absolute_path1)
-        time.sleep(3)
         self.nf.setgallery(self.absolute_path2)
-        time.sleep(3)
         self.nf.setgallery(self.absolute_path3)
-        time.sleep(3)
         self.nf.setgallery(self.absolute_path4)
-        time.sleep(3)
         self.nf.setgallery(self.absolute_path5)
-        time.sleep(3)
         self.nf.setgallery(self.absolute_path6)
         # self.nf.clickonpost()
         time.sleep(3)
         if "Cannot upload more than 5 images" in self.driver.page_source:
             self.logger.info("********** NewsFeed test is passed *********")
+            self.driver.close()
 
         else:
             # Log and take a screenshot
@@ -407,6 +379,7 @@ class TestNewsFeed:
 
     @pytest.mark.sanity
     @pytest.mark.regression
+    @pytest.mark.run(order=7)
     # @pytest.mark.skip(reason="Skipping this test")
     def test_newsfeedwithimages(self, setup):
         self.logger.info("************* Test_003_NewsFeed **********")
@@ -422,23 +395,14 @@ class TestNewsFeed:
 
         self.logger.info("******* Starting NewsFeed Test **********")
         self.nf = NewsFeed(self.driver)
-        time.sleep(3)
         self.nf.clickOnwhat()
-        time.sleep(3)
         self.nf.setfiveimages(self.fiveimages)
-        time.sleep(3)
         self.nf.setgallery(self.absolute_path1)
-        time.sleep(3)
         self.nf.setgallery(self.absolute_path2)
-        time.sleep(3)
         self.nf.setgallery(self.absolute_path3)
-        time.sleep(3)
         self.nf.setgallery(self.absolute_path4)
-        time.sleep(3)
         self.nf.setgallery(self.absolute_path5)
-        time.sleep(3)
         self.nf.clickonpublic()
-        time.sleep(3)
         self.nf.clickonpost()
         time.sleep(3)
         if "News feed created successfully" in self.driver.page_source:
@@ -451,16 +415,15 @@ class TestNewsFeed:
             assert False
         self.nf.clickonlogout()
         self.logger.info("************* Logout succesful **********")
-        time.sleep(3)
         self.lp.setUserName(self.usernames1)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
-        time.sleep(3)
         self.logger.info("************* EmpLogin succesful **********")
         self.nf.clickonimage()
         time.sleep(3)
         if "five images upload" in self.driver.page_source:
             self.logger.info("***************Newsfeed test is passed **********")
+            self.driver.close()
 
         else:
             self.logger.error("************* NewsFeed test is failed **********")
@@ -469,6 +432,7 @@ class TestNewsFeed:
 
     @pytest.mark.sanity
     @pytest.mark.regression
+    @pytest.mark.run(order=8)
     # @pytest.mark.skip(reason="Skipping this test")
 
     def test_newsfeedforemployeesvideo(self, setup):
@@ -485,16 +449,14 @@ class TestNewsFeed:
 
         self.logger.info("******* Starting NewsFeed Test **********")
         self.nf = NewsFeed(self.driver)
-        time.sleep(3)
         self.nf.clickOnwhat()
-        time.sleep(3)
         self.nf.setwhats(self.whatvideo)
-        time.sleep(3)
         self.nf.setvideo(self.absolute_pathvideo1)
         time.sleep(3)
         # self.nf.clickonpost()
         if "Cannot upload greater than 20MB" in self.driver.page_source:
             self.logger.info("********** NewsFeed test is passed *********")
+            self.driver.close()
 
         else:
             # Log and take a screenshot
@@ -504,6 +466,7 @@ class TestNewsFeed:
 
     @pytest.mark.sanity
     @pytest.mark.regression
+    @pytest.mark.run(order=9)
     # @pytest.mark.skip(reason="Skipping this test")
     def test_newsfeedforemployeesvideos(self, setup):
         self.logger.info("************* Test_003_NewsFeed **********")
@@ -519,13 +482,9 @@ class TestNewsFeed:
 
         self.logger.info("******* Starting NewsFeed Test **********")
         self.nf = NewsFeed(self.driver)
-        time.sleep(3)
         self.nf.clickOnwhat()
-        time.sleep(3)
         self.nf.setwhats(self.whatvideos)
-        time.sleep(3)
         self.nf.setvideo(self.absolute_pathvideo2)
-        time.sleep(3)
         self.nf.clickonpost()
         time.sleep(3)
         if "News feed created successfully" in self.driver.page_source:
@@ -539,7 +498,6 @@ class TestNewsFeed:
         time.sleep(3)
         self.nf.clickonlogout()
         self.logger.info("************* Logout succesful **********")
-        time.sleep(3)
         self.lp.setUserName(self.usernames)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
@@ -556,6 +514,7 @@ class TestNewsFeed:
 
     @pytest.mark.sanity
     @pytest.mark.regression
+    @pytest.mark.run(order=10)
     # @pytest.mark.skip(reason="Skipping this test")
     def test_newsfeedforempndrelvideo(self, setup):
         self.logger.info("************* Test_003_NewsFeed **********")
@@ -571,19 +530,12 @@ class TestNewsFeed:
 
         self.logger.info("******* Starting NewsFeed Test **********")
         self.nf = NewsFeed(self.driver)
-        time.sleep(3)
         self.nf.clickOnwhat()
-        time.sleep(3)
         self.nf.setwhatyoutube(self.whatyoutube)
-        time.sleep(3)
         self.nf.clickonpublic()
-        time.sleep(3)
         self.nf.clickonyoutube()
-        time.sleep(3)
         self.nf.setyoutubeurl(self.youtubeurl)
-        time.sleep(3)
         self.nf.clickondone()
-        time.sleep(3)
         self.nf.clickonpost()
         time.sleep(3)
         if "News feed created successfully" in self.driver.page_source:
@@ -597,7 +549,6 @@ class TestNewsFeed:
         time.sleep(3)
         self.nf.clickonlogout()
         self.logger.info("************* Logout succesful **********")
-        time.sleep(3)
         self.lp.setUserName(self.usernames1)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
@@ -614,6 +565,7 @@ class TestNewsFeed:
 
     @pytest.mark.sanity
     @pytest.mark.regression
+    @pytest.mark.run(order=11)
     # @pytest.mark.skip(reason="Skipping this test")
     def test_editnewsfeedforemployees(self, setup):
         self.logger.info("************* Test_003_NewsFeed **********")
@@ -629,11 +581,8 @@ class TestNewsFeed:
 
         self.logger.info("******* Starting NewsFeed Test **********")
         self.nf = NewsFeed(self.driver)
-        time.sleep(3)
         self.nf.clickOnwhat()
-        time.sleep(3)
         self.nf.setwhats(self.whats)
-        time.sleep(3)
         self.nf.clickonpost()
         time.sleep(3)
         if "News feed created successfully" in self.driver.page_source:
@@ -644,15 +593,11 @@ class TestNewsFeed:
             self.logger.error("************** NewsFeed test is failed **********")
             self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed1.png")
             assert False
-        time.sleep(5)
+        time.sleep(3)
         self.nf.clickonthreedot()
-        time.sleep(3)
         self.nf.clickonedit()
-        time.sleep(3)
         self.nf.setwhatedit(self.whatedit)
-        time.sleep(3)
         self.nf.clickonpublic()
-        time.sleep(3)
         self.nf.clickonupdate()
         time.sleep(3)
         if "News feed updated successfully" in self.driver.page_source:
@@ -666,7 +611,6 @@ class TestNewsFeed:
         time.sleep(3)
         self.nf.clickonlogout()
         self.logger.info("************* Logout succesful **********")
-        time.sleep(3)
         self.lp.setUserName(self.usernames1)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
@@ -683,6 +627,7 @@ class TestNewsFeed:
 
     @pytest.mark.sanity
     @pytest.mark.regression
+    @pytest.mark.run(order=12)
     # @pytest.mark.skip(reason="Skipping this test")
     def test_deletenewsfeedforempndrelvideo(self, setup):
         self.logger.info("************* Test_003_NewsFeed **********")
@@ -698,19 +643,12 @@ class TestNewsFeed:
 
         self.logger.info("******* Starting NewsFeed Test **********")
         self.nf = NewsFeed(self.driver)
-        time.sleep(3)
         self.nf.clickOnwhat()
-        time.sleep(3)
         self.nf.setwhatyoutube(self.whatyoutube)
-        time.sleep(3)
         self.nf.clickonpublic()
-        time.sleep(3)
         self.nf.clickonyoutube()
-        time.sleep(3)
         self.nf.setyoutubeurl(self.youtubeurl)
-        time.sleep(3)
         self.nf.clickondone()
-        time.sleep(3)
         self.nf.clickonpost()
         time.sleep(3)
         if "News feed created successfully" in self.driver.page_source:
@@ -723,15 +661,13 @@ class TestNewsFeed:
             assert False
         time.sleep(3)
         self.nf.clickonthreedot()
-        time.sleep(3)
         self.nf.clickondelete()
-        time.sleep(3)
         self.nf.clickondeletecheckbox()
-        time.sleep(3)
         self.nf.clickondeletebutton()
         time.sleep(3)
         if "News Feed deleted successfully!" in self.driver.page_source:
             self.logger.info("********** NewsFeed test is passed *********")
+            self.driver.close()
 
         else:
             # Log and take a screenshot
@@ -741,6 +677,7 @@ class TestNewsFeed:
 
     @pytest.mark.sanity
     @pytest.mark.regression
+    @pytest.mark.run(order=13)
     # @pytest.mark.skip(reason="Skipping this test")
     def test_archivenewsfeedwith5images(self, setup):
         self.logger.info("************* Test_003_NewsFeed **********")
@@ -756,21 +693,13 @@ class TestNewsFeed:
 
         self.logger.info("******* Starting NewsFeed Test **********")
         self.nf = NewsFeed(self.driver)
-        time.sleep(3)
         self.nf.clickOnwhat()
-        time.sleep(3)
         self.nf.setfiveimages(self.fiveimages)
-        time.sleep(3)
         self.nf.setgallery(self.absolute_path1)
-        time.sleep(3)
         self.nf.setgallery(self.absolute_path2)
-        time.sleep(3)
         self.nf.setgallery(self.absolute_path3)
-        time.sleep(3)
         self.nf.setgallery(self.absolute_path4)
-        time.sleep(3)
         self.nf.setgallery(self.absolute_path5)
-        time.sleep(3)
         self.nf.clickonpost()
         time.sleep(3)
         if "News feed created successfully" in self.driver.page_source:
@@ -783,9 +712,7 @@ class TestNewsFeed:
             assert False
         time.sleep(3)
         self.nf.clickonthreedot()
-        time.sleep(3)
         self.nf.clickondelete()
-        time.sleep(3)
         self.nf.clickondeletebutton()
         time.sleep(3)
         if "Feed deleted successfully, saved in archived feed" in self.driver.page_source:
@@ -798,11 +725,11 @@ class TestNewsFeed:
             assert False
         time.sleep(3)
         self.nf.clickonthreedots()
-        time.sleep(3)
         self.nf.clickonarchive()
         time.sleep(3)
         if "five images upload" in self.driver.page_source:
             self.logger.info("********** NewsFeed test is passed *********")
+            self.driver.close()
 
         else:
             # Log and take a screenshot
@@ -812,6 +739,7 @@ class TestNewsFeed:
 
     @pytest.mark.sanity
     @pytest.mark.regression
+    @pytest.mark.run(order=14)
     # @pytest.mark.skip(reason="Skipping this test")
     def test_bookmarknewsfeed(self, setup):
         self.logger.info("************* Test_003_NewsFeed **********")
@@ -820,21 +748,15 @@ class TestNewsFeed:
         self.driver.maximize_window()
 
         self.lp = LoginPage(self.driver)
-        time.sleep(3)
         self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
-        time.sleep(3)
         self.logger.info("************* companyLogin succesful **********")
         self.logger.info("******* Starting NewsFeed Test **********")
         self.nf = NewsFeed(self.driver)
-        time.sleep(3)
         self.nf.clickOnwhat()
-        time.sleep(3)
         self.nf.setwhatso(self.whatso)
-        time.sleep(3)
         self.nf.clickonpublic()
-        time.sleep(3)
         self.nf.clickonpost()
         time.sleep(3)
         if "News feed created successfully" in self.driver.page_source:
@@ -847,11 +769,8 @@ class TestNewsFeed:
             assert False
         time.sleep(3)
         self.nf = NewsFeed(self.driver)
-        time.sleep(3)
         self.nf.clickonthreedot()
-        time.sleep(3)
         self.nf.clickonbookmark()
-        time.sleep(3)
         self.nf.clickonexplore()
         time.sleep(3)
         if "hii,all employees and relation companies" in self.driver.page_source:
@@ -874,10 +793,12 @@ class TestNewsFeed:
 
         else:
             self.logger.info("************** NewsFeed test is passed **********")
+            self.driver.close()
         time.sleep(3)
 
     @pytest.mark.sanity
     @pytest.mark.regression
+    @pytest.mark.run(order=16)
     # @pytest.mark.skip(reason="Skipping this test")
     def test_selfposts(self, setup):
         self.logger.info("************* Test_003_NewsFeed **********")
@@ -886,21 +807,15 @@ class TestNewsFeed:
         self.driver.maximize_window()
 
         self.lp = LoginPage(self.driver)
-        time.sleep(3)
         self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
-        time.sleep(3)
         self.logger.info("************* companyLogin succesful **********")
         self.logger.info("******* Starting NewsFeed Test **********")
         self.nf = NewsFeed(self.driver)
-        time.sleep(3)
         self.nf.clickOnwhat()
-        time.sleep(3)
         self.nf.setwhatso(self.whatso)
-        time.sleep(3)
         self.nf.clickonpublic()
-        time.sleep(3)
         self.nf.clickonpost()
         time.sleep(3)
         if "News feed created successfully" in self.driver.page_source:
@@ -913,13 +828,9 @@ class TestNewsFeed:
             assert False
         time.sleep(3)
         self.nf.clickonthreedots()
-        time.sleep(3)
         self.nf.clickonfilter()
-        time.sleep(3)
         self.nf.clickonall()
-        time.sleep(3)
         self.nf.clickonself()
-        time.sleep(3)
         self.nf.clickonapply()
         time.sleep(3)
         if "hii,all employees and relation companies" in self.driver.page_source:
@@ -933,6 +844,7 @@ class TestNewsFeed:
 
     @pytest.mark.sanity
     @pytest.mark.regression
+    @pytest.mark.run(order=17)
     # @pytest.mark.skip(reason="Skipping this test")
     def test_sharenewsfeed(self, setup):
         self.logger.info("************* Test_003_NewsFeed **********")
@@ -941,23 +853,17 @@ class TestNewsFeed:
         self.driver.maximize_window()
 
         self.lp = LoginPage(self.driver)
-        time.sleep(0.5)
         self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
-        time.sleep(0.5)
         self.logger.info("************* companyLogin succesful **********")
         self.logger.info("******* Starting NewsFeed Test **********")
         self.nf = NewsFeed(self.driver)
-        time.sleep(1)
         self.nf.clickOnwhat()
-        time.sleep(0.5)
         self.nf.setwhatso(self.whatso)
-        time.sleep(0.5)
         self.nf.clickonpublic()
-        time.sleep(0.5)
         self.nf.clickonpost()
-        time.sleep(0.5)
+        time.sleep(1)
         if "News feed created successfully" in self.driver.page_source:
             self.logger.info("********** NewsFeed test is passed *********")
 
@@ -966,11 +872,9 @@ class TestNewsFeed:
             self.logger.error("************** NewsFeed test is failed **********")
             self.driver.save_screenshot(".\\Screenshots\\" + "test_newsfeed2.png")
             assert False
-        time.sleep(0.5)
+        time.sleep(1)
         self.nf.clickonshare()
-        time.sleep(0.5)
         self.nf.clickonwhatsapp()
-        time.sleep(0.5)
         window_handles = self.driver.window_handles
         self.driver.switch_to.window(window_handles[1])
         time.sleep(3)
@@ -987,12 +891,9 @@ class TestNewsFeed:
         window_handles = self.driver.window_handles
         # Switch to the last opened window
         self.driver.switch_to.window(window_handles[0])
-        time.sleep(2)
         self.nf.clickonshare()
-        time.sleep(3)
         self.driver.implicitly_wait(5)
         self.nf.clickonfacebook()
-        time.sleep(3)
         window_handles = self.driver.window_handles
         self.driver.switch_to.window(window_handles[2])
         time.sleep(3)
@@ -1008,11 +909,8 @@ class TestNewsFeed:
         time.sleep(3)
         window_handles = self.driver.window_handles
         self.driver.switch_to.window(window_handles[0])
-        time.sleep(3)
         self.nf.clickonshare()
-        time.sleep(2)
         self.nf.clickontwitter()
-        time.sleep(3)
         window_handles = self.driver.window_handles
         self.driver.switch_to.window(window_handles[3])
         time.sleep(3)
@@ -1028,11 +926,8 @@ class TestNewsFeed:
         time.sleep(3)
         window_handles = self.driver.window_handles
         self.driver.switch_to.window(window_handles[0])
-        time.sleep(3)
         self.nf.clickonshare()
-        time.sleep(2)
         self.nf.clickonlinkedin()
-        time.sleep(3)
         window_handles = self.driver.window_handles
         self.driver.switch_to.window(window_handles[4])
         time.sleep(3)
@@ -1048,11 +943,8 @@ class TestNewsFeed:
         time.sleep(3)
         window_handles = self.driver.window_handles
         self.driver.switch_to.window(window_handles[0])
-        time.sleep(3)
         self.nf.clickonshare()
-        time.sleep(2)
         self.nf.clickontelegram()
-        time.sleep(3)
         window_handles = self.driver.window_handles
         self.driver.switch_to.window(window_handles[5])
         time.sleep(3)
@@ -1068,11 +960,8 @@ class TestNewsFeed:
         time.sleep(3)
         window_handles = self.driver.window_handles
         self.driver.switch_to.window(window_handles[0])
-        time.sleep(3)
         self.nf.clickonshare()
-        time.sleep(2)
         self.nf.clickongmail()
-        time.sleep(3)
         window_handles = self.driver.window_handles
         self.driver.switch_to.window(window_handles[6])
         time.sleep(3)
@@ -1091,17 +980,16 @@ class TestNewsFeed:
         time.sleep(3)
         window_handles = self.driver.window_handles
         self.driver.switch_to.window(window_handles[0])
-        time.sleep(3)
         # self.nf.clickonshare()
         # time.sleep(2)
         self.nf.clickoninstagram()
-        time.sleep(3)
         window_handles = self.driver.window_handles
         self.driver.switch_to.window(window_handles[7])
         time.sleep(3)
 
         if "https://www.instagram.com/" in self.driver.current_url:
             self.logger.info("********** NewsFeed test is passed *********")
+            self.driver.close()
 
         else:
             # Log and take a screenshot
@@ -1111,6 +999,7 @@ class TestNewsFeed:
 
     @pytest.mark.sanity
     @pytest.mark.regression
+    @pytest.mark.run(order=18)
     # @pytest.mark.skip(reason="Skipping this test")
     def test_adminfeed(self, setup):
         self.logger.info("************* Test_003_NewsFeed **********")
@@ -1126,13 +1015,9 @@ class TestNewsFeed:
 
         self.logger.info("******* Starting NewsFeed Test **********")
         self.nf = NewsFeed(self.driver)
-        time.sleep(3)
         self.nf.clickOnwhat()
-        time.sleep(3)
         self.nf.setwhatso(self.whatso)
-        time.sleep(3)
         self.nf.clickonpublic()
-        time.sleep(3)
         self.nf.clickonpost()
         time.sleep(3)
         if "News feed created successfully" in self.driver.page_source:
@@ -1146,7 +1031,6 @@ class TestNewsFeed:
         time.sleep(3)
         self.nf.clickonlogout()
         self.logger.info("************* Logout succesful **********")
-        time.sleep(3)
         self.lp.setUserName(self.usernames1)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
@@ -1163,6 +1047,7 @@ class TestNewsFeed:
 
     @pytest.mark.sanity
     @pytest.mark.regression
+    @pytest.mark.run(order=19)
     # @pytest.mark.skip(reason="Skipping this test")
     def test_feedcomment(self, setup):
         self.logger.info("************* Test_003_NewsFeed **********")
@@ -1178,11 +1063,8 @@ class TestNewsFeed:
 
         self.logger.info("******* Starting NewsFeed Test **********")
         self.nf = NewsFeed(self.driver)
-        time.sleep(3)
         self.nf.clickOnwhat()
-        time.sleep(3)
         self.nf.setwhats(self.whats)
-        time.sleep(3)
         self.nf.clickonpost()
         time.sleep(3)
         if "News feed created successfully" in self.driver.page_source:
@@ -1195,23 +1077,15 @@ class TestNewsFeed:
             assert False
         time.sleep(3)
         self.nf.clickoncomment()
-        time.sleep(3)
         self.nf.setcommenttext(self.commenttext)
-        time.sleep(3)
         self.nf.clickonsend()
-        time.sleep(3)
         self.nf.clickoncancelcmnt()
-        time.sleep(3)
         self.nf.clickonlogout()
-        time.sleep(3)
         self.logger.info("************* Logout succesful **********")
-        time.sleep(3)
         self.driver.execute_script("window.open('', '_blank');")
         window_handles = self.driver.window_handles
         self.driver.switch_to.window(window_handles[1])
-        time.sleep(3)
         self.driver.get(self.baseURL)
-        time.sleep(3)
         self.lp.setUserName(self.usernames)
         self.lp.setPassword(self.password)
         self.lp.clickLogin()
@@ -1227,17 +1101,14 @@ class TestNewsFeed:
             assert False
         time.sleep(3)
         self.nf.clickoncomments()
-        time.sleep(3)
         self.nf.clickonreplycmnt()
-        time.sleep(3)
         self.nf.setreplytext(self.replytext)
-        time.sleep(3)
         self.nf.clickonreplysend()
-        time.sleep(3)
         self.nf.clickonviewreply()
         time.sleep(3)
         if "gudmorning all" in self.driver.page_source:
             self.logger.info("********** NewsFeed display is passed *********")
+            self.driver.close()
 
         else:
             # Log and take a screenshot
@@ -1247,6 +1118,7 @@ class TestNewsFeed:
 
     @pytest.mark.sanity
     @pytest.mark.regression
+    @pytest.mark.run(order=20)
     # @pytest.mark.skip(reason="Skipping this test")
     def test_editfeedcomment(self, setup):
         self.logger.info("************* Test_003_NewsFeed **********")
@@ -1262,11 +1134,8 @@ class TestNewsFeed:
 
         self.logger.info("******* Starting NewsFeed Test **********")
         self.nf = NewsFeed(self.driver)
-        time.sleep(3)
         self.nf.clickOnwhat()
-        time.sleep(3)
         self.nf.setwhats(self.whats)
-        time.sleep(3)
         self.nf.clickonpost()
         time.sleep(3)
         if "News feed created successfully" in self.driver.page_source:
@@ -1279,23 +1148,14 @@ class TestNewsFeed:
             assert False
         time.sleep(3)
         self.nf.clickoncomment()
-        time.sleep(3)
         self.nf.setcommenttext(self.commenttext)
-        time.sleep(3)
         self.nf.clickonsend()
-        time.sleep(3)
         self.nf.clickoncommentthreedot()
-        time.sleep(3)
         self.nf.clickoncommentedit()
-        time.sleep(3)
         self.nf.setcommentedittext(self.commentedittext)
-        time.sleep(3)
         self.nf.clickoncommenteditsend()
-        time.sleep(3)
         self.nf.clickoncommentthreedot()
-        time.sleep(3)
         self.nf.clickoncommentdelete()
-        time.sleep(3)
         self.nf.clickoncommentconfirmdelete()
         time.sleep(3)
         if "all hiii gud mrng" in self.driver.page_source:
@@ -1307,4 +1167,4 @@ class TestNewsFeed:
 
         else:
             self.logger.info("************** NewsFeed test is passed **********")
-        time.sleep(3)
+            self.driver.close()
