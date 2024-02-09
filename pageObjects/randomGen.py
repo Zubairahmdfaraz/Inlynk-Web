@@ -9,6 +9,7 @@ class randomGen:
         suffix = "@yopmail.com"
         return prefix + suffix
 
+
     @staticmethod
     def random_first_name():
         random_part = ''.join(random.choice(string.ascii_letters) for _ in range(5))  # Random part after "test"
@@ -29,7 +30,7 @@ class randomGen:
         prefixes = ['6', '7', '8', '9']  # Valid starting digits for Indian mobile numbers
 
         prefix = random.choice(prefixes)
-        remaining_digits = ''.join(random.choice('0123456789') for _ in range(9))
+        remaining_digits = ''.join(random.choice('0123456789') for _ in range(10))
 
         return f'{prefix}{remaining_digits}'
 
@@ -37,6 +38,55 @@ class randomGen:
     def random_Emp_Id():
         prefix = '9'  # Assuming '9' as the fixed prefix
         remaining_digits = ''.join(random.choice('0123456789') for _ in range(4))  # Generating 4 random digits
+
+        return f'{prefix}{remaining_digits}'
+
+    @staticmethod
+    def random_Title():
+        random_part = ''.join(random.choice(string.ascii_letters) for _ in range(5))  # Random part after "test"
+        return f"Test{random_part}"
+
+    @staticmethod
+    def random_Description():
+        random_part = ''.join(random.choice(string.ascii_letters) for _ in range(5))  # Random part after "test"
+        return f"Test{random_part}"
+
+    @staticmethod
+    def random_overviwDescription():
+        random_part = ''.join(random.choice(string.ascii_letters) for _ in range(50))  # Random part after "test"
+        return f"Test{random_part}"
+
+    @staticmethod
+    def random_last_name():
+        random_part = ''.join(random.choice(string.ascii_letters) for _ in range(5))  # Random part after "test"
+        return f"Test{random_part}"  # Prefix "test" to the random part
+
+    @staticmethod
+    def random_degree():
+        random_part = ''.join(random.choice(string.ascii_letters) for _ in range(5))  # Random part after "test"
+        return f"Test{random_part}"  # Prefix "test" to the random part
+
+    @staticmethod
+    def random_specialization():
+        random_part = ''.join(random.choice(string.ascii_letters) for _ in range(10))  # Random part after "test"
+        return f"Test{random_part}"  # Prefix "test" to the random part
+
+    @staticmethod
+    def random_university():
+        random_part = ''.join(random.choice(string.ascii_letters) for _ in range(10))  # Random part after "test"
+        return f"Test{random_part}"  # Prefix "test" to the random part
+
+    @staticmethod
+    def random_addressInput():
+        random_part = ''.join(random.choice(string.ascii_letters) for _ in range(10))  # Random part after "test"
+        return f"Test{random_part}"  # Prefix "test" to the random part
+
+    @staticmethod
+    def random_pinCode():
+        prefixes = ['6', '7', '8', '9']  # Valid starting digits for Indian mobile numbers
+
+        prefix = random.choice(prefixes)
+        remaining_digits = ''.join(random.choice('0123456789') for _ in range(7))
 
         return f'{prefix}{remaining_digits}'
 
