@@ -48,7 +48,7 @@ class TestLogin(unittest.TestCase):
 
     @pytest.mark.smoke(order=1)
     # @pytest.mark.skip(reason="skip for now")
-    # @pytest.mark.flaky(reruns=3, reruns_delay=2)
+    @pytest.mark.flaky(reruns=3, reruns_delay=2)
     def test_RejectConnectionCompanyAsManufacturer(self):
         self.logger.info("****Started Network Connection Test****")
         self.lp = LoginPage(self.driver)
@@ -65,8 +65,8 @@ class TestLogin(unittest.TestCase):
         self.driver.find_element(By.XPATH, "//span[contains(text(),'" + self.CompanyManufacture + "')]").click()
         self.np.clickConnectButton()
         self.np.clickDropDownList()
-        # self.np.clickManufacturer()
-        self.np.clickdistributor()
+        self.np.clickManufacturer()
+        # self.np.clickdistributor()
         self.np.setRM_searchField(self.RMname)
         self.np.clickSelectRM()
         self.np.clickcheckbox()

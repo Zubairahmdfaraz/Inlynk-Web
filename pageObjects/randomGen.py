@@ -30,7 +30,7 @@ class randomGen:
         prefixes = ['6', '7', '8', '9']  # Valid starting digits for Indian mobile numbers
 
         prefix = random.choice(prefixes)
-        remaining_digits = ''.join(random.choice('0123456789') for _ in range(10))
+        remaining_digits = ''.join(random.choice('0123456789') for _ in range(9))
 
         return f'{prefix}{remaining_digits}'
 

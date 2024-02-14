@@ -45,8 +45,8 @@ class addEmployees(unittest.TestCase):
         self.driver.quit()
 
 
-    @pytest.mark.smoke
-    # @pytest.mark.flaky(reruns=3, reruns_delay=2)
+    @pytest.mark.smoke(order =1)
+    @pytest.mark.flaky(reruns=3, reruns_delay=2)
     def test_createEmployee_superAdmin(self):
         self.logger.info("****Started Create New Employee in Super Admin and Admin Account ****")
         first_name = randomGen.random_first_name()

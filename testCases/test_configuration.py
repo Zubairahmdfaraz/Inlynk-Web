@@ -1,5 +1,5 @@
 import time
-
+import unittest
 import pytest
 from openpyxl.reader.excel import load_workbook
 from selenium import webdriver
@@ -9,7 +9,8 @@ from pageObjects.LoginPage import LoginPage
 from utilities.readProperties import ReadConfig
 from utilities.customLogger import LogGen
 
-class Test_001_Configuration:
+
+class TestConfiguration(unittest.TestCase):
     baseURL = ReadConfig.getApplicationURL()
 
     DeptName = "QA"
@@ -32,14 +33,24 @@ class Test_001_Configuration:
 
     workbook.close()
 
-    logger=LogGen.loggen()
+    logger = LogGen.loggen()
+
+    def setUp(self):
+        self.logger = LogGen.loggen()
+        self.driver = webdriver.Chrome()  # Change to the appropriate driver
+        self.driver.maximize_window()
+        self.logger.info("****Opening URL****")
+        self.driver.get(self.baseURL)
+
+    def tearDown(self):
+        self.driver.quit()
 
     @pytest.mark.regression
-    def test_createDept(self,setup):
+    def test_createDept(self):
         self.logger.info("****Started Login Test****")
-        self.driver = setup
+        # self.driver = setup
         self.driver.get(self.baseURL)
-        self.driver.maximize_window()
+        # self.driver.maximize_window()
         self.lp = LoginPage(self.driver)
         self.lp.setUserName(self.username)
         self.lp.setPassword(self.password)
@@ -48,6 +59,7 @@ class Test_001_Configuration:
         self.cp = ConfigurationPage(self.driver)
         self.cp.clickModuleConfiguration()
         self.cp.clickDepartments()
+        self.logger.info(" Started TC_01 : Verify create NEW Department ")
         self.cp.clickNewBtn()
         self.cp.setDepartmentName(self.DeptName)
         self.cp.setEnterDescription(self.DeptDescription)
@@ -56,15 +68,17 @@ class Test_001_Configuration:
         act_Text = self.cp.Text_DeptCreatedSuccessful()
         if act_Text == "Department created successfully":
             assert True
-            self.logger.info("********* Create Department Test is Passed ***********")
+            self.logger.info("********* TC_01 : Verify create NEW Department Test is Passed ***********")
 
         else:
             self.driver.save_screenshot(".\\ScreenShots\\" + "test_createDept.png")
-            self.logger.error("********* Create Department Test is Failed ***********")
+            self.logger.error("********* TC_01 : Verify create NEW Department Test is Failed ***********")
             self.driver.close()
             assert False
+        self.logger.info(" Started TC_04 : Verify Search Department ")
         self.cp.setsearchField(self.DeptName)
         self.cp.clickopenDept()
+        self.logger.info(" Started TC_06 : Verify create NEW Division ")
         self.cp.clickDivisionsTab()
         self.cp.clickNewBtn()
         self.cp.setDepartmentName(self.DivisionName)
@@ -74,7 +88,7 @@ class Test_001_Configuration:
         act_Text = self.cp.Text_DivisionCreatedSuccessful()
         if act_Text == "Division created successfully":
             assert True
-            self.logger.info("********* Create Division Test is Passed ***********")
+            self.logger.info("********* TC_06 : Verify create NEW Division Test is Passed ***********")
 
         else:
             self.driver.save_screenshot(".\\ScreenShots\\" + "test_createDept.png")
@@ -83,6 +97,7 @@ class Test_001_Configuration:
             assert False
 
         self.cp.clickDesignationsTab()
+        self.logger.info(" Started TC_10 : Verify Create NEW Designation ")
         self.cp.clickNewBtn()
         self.cp.setDepartmentName(self.DesignationName)
         self.cp.setEnterDescription(self.DesignationDescription)
@@ -94,8 +109,8 @@ class Test_001_Configuration:
             self.logger.info("********* Create Designation Test is Passed ***********")
             self.driver.close()
         else:
-            self.driver.save_screenshot(".\\ScreenShots\\" + "test_createDept.png")
-            self.logger.error("********* Create Designation Test is Failed ***********")
+            self.driver.save_screenshot(".\\ScreenShots\\" + "TC_10_test_createDept.png")
+            self.logger.error("********* TC_10 : Verify Create NEW Designation Test is Failed ***********")
             self.driver.close()
             assert False
 
@@ -260,3 +275,6 @@ class Test_001_Configuration:
     #         self.logger.error("********* Delete Department Test is Failed ***********")
     #         self.driver.close()
     #         assert False
+
+    if __name__ == '__main__':
+        unittest.main(verbosity=2)
