@@ -35,7 +35,7 @@ class TestSignUp(unittest.TestCase):
         self.driver.quit()
 
     @pytest.mark.run(order=1)
-    @pytest.mark.smoke
+    @pytest.mark.regression
     @pytest.mark.flaky(rerun=3, rerun_delay=2)
     def test_SignUpwithValid(self):
         self.driver.get(self.baseURL)

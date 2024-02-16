@@ -150,8 +150,9 @@ class ConfigurationPage:
         element.click()
 
     def setDepartmentName(self, searchField):
-        self.driver.find_element(By.XPATH, self.text_Department_name_xpath).clear()
-        self.driver.find_element(By.XPATH, self.text_Department_name_xpath).send_keys(searchField)
+        department_name_element = self.driver.find_element(By.XPATH, self.text_Department_name_xpath)
+        department_name_element.clear()
+        department_name_element.send_keys(searchField)
 
     def setEnterDescription(self, searchField):
         self.driver.find_element(By.XPATH, self.text_EnterDescription_xpath).clear()
