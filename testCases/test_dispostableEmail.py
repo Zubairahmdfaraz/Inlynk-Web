@@ -1,12 +1,19 @@
+import re
 import time
 import unittest
-from typing import re
+
+from selenium.webdriver.support import wait
+from selenium.webdriver.support import expected_conditions as EC
+import time
+import re
+
+from selenium.webdriver.support.wait import WebDriverWait
 
 from pageObjects.ConfigurationPage import ConfigurationPage
 from pageObjects.AddEmployeesPage import AddEmployeesPage
 import pytest
 from openpyxl.reader.excel import load_workbook
-from selenium.common import NoSuchElementException
+from selenium.common import NoSuchElementException, StaleElementReferenceException, TimeoutException
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from pageObjects.LoginPage import LoginPage
@@ -18,7 +25,7 @@ from pageObjects.randomGen import randomGen
 from selenium import webdriver
 
 
-class TestSignUp(unittest.TestCase):
+class TestSignUpEmailTry(unittest.TestCase):
     baseURL = ReadConfig.getApplicationURL()
     setSearchIndustryType = "Information Technology"
     password = ReadConfig.getPassword()
@@ -97,64 +104,53 @@ class TestSignUp(unittest.TestCase):
         self.driver.switch_to.window(self.driver.window_handles[1])
         self.logger.info("******** Opening new url in another tab for Email OTP ***********")
         time.sleep(1)
-        self.driver.get("https://yopmail.com/")
+        self.driver.get("http://mailcatch.com/en/disposable-email")
         time.sleep(1)
-        yopmail = self.driver.find_element(By.XPATH, "//input[@id='login']")
+        yopmail = self.driver.find_element(By.XPATH, "//input[@name='box']")
         yopmail.send_keys(email + Keys.ENTER)
         time.sleep(1)
-        iframeElement = self.driver.find_element(By.ID, "ifmail")
+
+        reload_button = self.driver.find_element(By.XPATH, "//img[@title='Reload']")
+
+        # Click the Reload button every second until the subject is displayed or a maximum time is reached
+        max_wait_time = 60  # Set your maximum wait time in seconds
+        start_time = time.time()
+
+        while time.time() - start_time < max_wait_time:
+            reload_button.click()
+
+            try:
+                # Check if the subject is displayed
+                subject = WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_element_located((By.XPATH, "//td[@class='subject']"))
+                )
+                subject.click()
+                break  # Break out of the loop if subject is displayed
+            except StaleElementReferenceException:
+                print("StaleElementReferenceException occurred. Retrying...")
+                continue  # Retry the loop if StaleElementReferenceException occurs
+            except TimeoutException:
+                time.sleep(0.1)
+
+        iframeElement = self.driver.find_element(By.ID, "emailframe")
         self.driver.switch_to.frame(iframeElement)
 
-        # here appears the captcha
-        captcha_retries = 3
-        attempts = 0
-        captcha_found = False
-        while attempts < captcha_retries:
-            try:
+        # Code outside the loop will be executed after the loop or when a TimeoutException occurs
+        otp = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, "//body"))
+        )
+        self.driver.execute_script("arguments[0].scrollIntoView(true);", otp)
+        time.sleep(0.5)
 
-                # If CAPTCHA is successfully filled, set captcha_found to True
-                captcha_found = False  # Update this line accordingly
-
-                # Verify the presence of specific text
-                text_element = self.driver.find_element(By.XPATH, "//div[@class='b alc r_message']")
-                if text_element.text == "Complete the CAPTCHA to continue":
-                    captcha_found = True
-                    break  # Exit the loop if expected text is found
-
-            except NoSuchElementException:
-                # No CAPTCHA found, continue with the rest of the steps
-                captcha_found = False  # Update this line accordingly
-                break
-
-            except Exception as e:
-                print(f"Error occurred: {e}")
-                attempts += 1
-                time.sleep(2)
-
-            if captcha_found:
-                print("Expected text found. Rerunning the test.")
-                self.test_SignUpwithValid(setup)  # Rerun the test method
-
-            else:
-                print("Expected text not found. Continuing with the code.")
-                # Continue with the remaining steps of your test script
-                time.sleep(2)  # Add any necessary wait times or other steps
-
-        # iframeElement = self.driver.find_element(By.ID, "ifmail")
-        # self.driver.switch_to.frame(iframeElement)
-        self.logger.info("******** Email Copied ***********")
-        time.sleep(1)
-        # This code is for Test Env
-        # otp = self.driver.find_element(By.XPATH,
-        #                                "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/h1[1]")
-        # self.driver.execute_script("arguments[0].scrollIntoView(true);", otp)
-        # time.sleep(0.5)
-        # getOTP = otp.text
-        # print(getOTP)
+        confirmation_code = otp.text
+        getOTP = re.search(r'\b\d+\b', confirmation_code).group()
+        print(getOTP)
 
         # This code is for QA ENV
-        otp = self.driver.find_element(By.XPATH,"/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]")
+        otp = self.driver.find_element(By.XPATH,"//body")
+        self.driver.execute_script("arguments[0].scrollIntoView(true);", otp)
         time.sleep(0.5)
+
         confirmation_code = otp.text
         getOTP = re.search(r'\b\d+\b', confirmation_code).group()
         print(getOTP)

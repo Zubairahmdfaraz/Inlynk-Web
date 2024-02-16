@@ -147,19 +147,19 @@ class TestSignUp(unittest.TestCase):
         time.sleep(1)
 
         # This code is for Test Env
-        otp = self.driver.find_element(By.XPATH,
-                                       "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/h1[1]")
-        self.driver.execute_script("arguments[0].scrollIntoView(true);", otp)
-        time.sleep(0.5)
-        getOTP = otp.text
-        print(getOTP)
+        # otp = self.driver.find_element(By.XPATH,
+        #                                "/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/h1[1]")
+        # self.driver.execute_script("arguments[0].scrollIntoView(true);", otp)
+        # time.sleep(0.5)
+        # getOTP = otp.text
+        # print(getOTP)
 
         # This code is for QA ENV
-        # otp = self.driver.find_element(By.XPATH,"/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]")
-        # time.sleep(0.5)
-        # confirmation_code = otp.text
-        # getOTP = re.search(r'\b\d+\b', confirmation_code).group()
-        # print(getOTP)
+        otp = self.driver.find_element(By.XPATH,"/html[1]/body[1]/main[1]/div[1]/div[1]/div[1]")
+        time.sleep(0.5)
+        confirmation_code = otp.text
+        getOTP = re.search(r'\b\d+\b', confirmation_code).group()
+        print(getOTP)
 
 
         self.logger.info("******** Switching back and entering the otp ***********")
