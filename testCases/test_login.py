@@ -38,7 +38,7 @@ class TestLogin(unittest.TestCase):
 
         self.driver.maximize_window()
         self.logger.info("****Opening URL****")
-        self.driver.get(self.baseURL
+        self.driver.get(self.baseURL)
 
     def tearDown(self):
         self.driver.quit()
