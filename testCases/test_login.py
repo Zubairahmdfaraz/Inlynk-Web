@@ -7,11 +7,11 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.options import Options
 
 from pageObjects.LoginPage import LoginPage
 from utilities.readProperties import ReadConfig
 from utilities.customLogger import LogGen
-
 
 class TestLogin(unittest.TestCase):
     baseURL = ReadConfig.getApplicationURL()
@@ -29,10 +29,16 @@ class TestLogin(unittest.TestCase):
 
     def setUp(self):
         self.logger = LogGen.loggen()
-        self.driver = webdriver.Chrome()  # Change to the appropriate driver
+
+        # Headless Chrome configuration
+        chrome_options = Options()
+        chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--disable-gpu')
+        self.driver = webdriver.Chrome(options=chrome_options)
+
         self.driver.maximize_window()
         self.logger.info("****Opening URL****")
-        self.driver.get(self.baseURL)
+        self.driver.get(self.baseURL
 
     def tearDown(self):
         self.driver.quit()
