@@ -37,7 +37,7 @@ class TestLogin(unittest.TestCase):
 
     def setUp(self):
         self.logger = LogGen.loggen()
-        self.driver = webdriver.Chrome()  # Change to the appropriate driver
+        self.driver = webdriver.Firefox()  # Change to the appropriate driver
         self.driver.maximize_window()
         self.driver.implicitly_wait(10)
         self.logger.info("****Opening URL****")
